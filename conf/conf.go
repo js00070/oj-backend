@@ -1,10 +1,10 @@
 package conf
 
 import (
-	"os"
 	"oj/cache"
 	"oj/model"
 	"oj/util"
+	"os"
 
 	"github.com/joho/godotenv"
 )

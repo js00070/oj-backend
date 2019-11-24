@@ -1,0 +1,58 @@
+version: '2.1'
+services:
+  mysql:
+    container_name: mysql
+    restart: always
+    image: mysql:5.7
+    expose:
+      - '3306'
+    environment:
+      MYSQL_DATABASE: oj
+      MYSQL_ROOT_PASSWORD: 123456
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=123456 --execute \"SHOW DATABASES;\""
+      interval: 3s
+      timeout: 1s
+      retries: 5
+  redis:
+    container_name: redis-master
+    restart: always
+    image: redis:latest
+    command: ['redis-server', '--appendonly','yes']
+    expose:
+        - '6379'
+    healthcheck:
+      test: "/usr/local/bin/redis-cli PING"
+      interval: 3s
+      timeout: 1s
+      retries: 5
+  apiserver:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    container_name: apiserver
+    restart: always
+    image: oj/apiserver:0.1
+    expose:
+      - '8080'
+    environment:
+      MYSQL_DSN: root:123456@(mysql)/oj?charset=utf8mb4&parseTime=True&loc=Local
+      REDIS_ADDR: redis:6379
+      REDIS_DB: 0
+      #REDIS_PW: 
+      SESSION_SECRET: setOnProducation
+      GIN_MODE: debug
+      LOG_LEVEL: debug
+    # healthcheck:
+    #   test: "curl localhost:8080/api/v1/ping"
+    #   interval: 10s
+    #   timeout: 1s
+    #   retries: 5
+  frontend:
+    container_name: frontend
+    restart: always
+    image: oj/frontend:0.1
+    ports:
+      - '8080:80'
