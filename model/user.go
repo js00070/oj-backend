@@ -8,11 +8,11 @@ import (
 // User 用户模型
 type User struct {
 	gorm.Model
-	UserName       string
-	PasswordDigest string
-	Nickname       string
-	Status         string
-	Avatar         string `gorm:"size:1000"`
+	UserName       string `gorm:"size:32"`
+	PasswordDigest string `gorm:"size:64"`
+	Nickname       string `gorm:"size:32"`
+	Status         string `gorm:"size:32"`
+	Avatar         string `gorm:"size16"`
 }
 
 const (

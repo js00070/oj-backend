@@ -1,6 +1,7 @@
 package api
 
 import (
+	"oj/model"
 	"oj/service"
 
 	"github.com/gin-gonic/gin"
@@ -14,5 +15,17 @@ func CommitCode(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+	}
+}
+
+// GetCommitList 获取提交列表
+func GetCommitList(c *gin.Context) {
+	commitList, err := model.GetCommitList()
+	if err != nil {
+		c.JSON(500, ErrorResponse(err))
+	} else {
+		c.JSON(200, gin.H{
+			"commitlist": commitList,
+		})
 	}
 }

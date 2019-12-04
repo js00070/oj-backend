@@ -6,8 +6,8 @@ import "github.com/jinzhu/gorm"
 type Commit struct {
 	gorm.Model
 	Status int    // 0:pending 1:correct -1:wrong
-	Code   string `gorm:"size:32767"`
-	Output string `gorm:"size:32767"`
+	Code   string `gorm:"size:4000"`
+	Output string `gorm:"size:4000"`
 }
 
 // CreateCommit 创建commit
@@ -38,4 +38,11 @@ func GetCommitByID(commitID int) (Commit, error) {
 	var commit Commit
 	err := DB.Where("id = ?", commitID).First(&commit).Error
 	return commit, err
+}
+
+// GetCommitList 获取commit列表
+func GetCommitList() ([]Commit, error) {
+	var commits []Commit
+	err := DB.Find(&commits).Order("id DESC", true).Error
+	return commits, err
 }
