@@ -3,6 +3,7 @@ package conf
 import (
 	"oj/cache"
 	"oj/model"
+	"oj/routine"
 	"oj/util"
 	"os"
 
@@ -25,4 +26,5 @@ func Init() {
 	// 连接数据库
 	model.Database(os.Getenv("MYSQL_DSN"))
 	cache.Redis()
+	routine.Init()
 }

@@ -1,9 +1,9 @@
 package server
 
 import (
-	"os"
 	"oj/api"
 	"oj/middleware"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +21,8 @@ func NewRouter() *gin.Engine {
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("ping", api.Ping)
+
+		v1.POST("commit", api.CommitCode)
 
 		// 用户登录
 		v1.POST("user/register", api.UserRegister)
