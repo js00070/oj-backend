@@ -6,8 +6,8 @@ import "github.com/jinzhu/gorm"
 type Commit struct {
 	gorm.Model
 	Status int    // 0:pending 1:correct -1:wrong
-	Code   string `gorm:"size:4000"`
-	Output string `gorm:"size:4000"`
+	Code   string `gorm:"type:text(50000)"`
+	Output string `gorm:"type:text(50000)"`
 }
 
 // CreateCommit 创建commit
