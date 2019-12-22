@@ -5,14 +5,16 @@ import "github.com/jinzhu/gorm"
 // Commit 提交
 type Commit struct {
 	gorm.Model
+	UserID uint   `gorm:"index"` // 用户id
 	Status int    // 0:pending 1:correct -1:wrong
 	Code   string `gorm:"type:text(50000)"`
 	Output string `gorm:"type:text(50000)"`
 }
 
 // CreateCommit 创建commit
-func CreateCommit(code string) (Commit, error) {
+func CreateCommit(id uint, code string) (Commit, error) {
 	commit := Commit{
+		UserID: id,
 		Code:   code,
 		Status: 0,
 	}
@@ -40,9 +42,9 @@ func GetCommitByID(commitID int) (Commit, error) {
 	return commit, err
 }
 
-// GetCommitList 获取commit列表
-func GetCommitList() ([]Commit, error) {
+// GetCommitList 获取用户的commit列表
+func GetCommitList(id uint) ([]Commit, error) {
 	var commits []Commit
-	err := DB.Find(&commits).Order("id DESC", true).Error
+	err := DB.Where("user_id = ?", id).Find(&commits).Order("id DESC", true).Error
 	return commits, err
 }

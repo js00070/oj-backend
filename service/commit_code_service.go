@@ -15,7 +15,11 @@ type CommitCodeService struct {
 
 // Commit 提交代码
 func (service *CommitCodeService) Commit(c *gin.Context) serializer.Response {
-	commit, err := model.CreateCommit(service.Code)
+	id, ok := c.Get("UserID")
+	if !ok {
+		return serializer.Err(312, "提交代码失败", nil)
+	}
+	commit, err := model.CreateCommit(id.(uint), service.Code)
 	if err != nil {
 		return serializer.DBErr("", err)
 	}

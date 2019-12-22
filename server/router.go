@@ -22,19 +22,18 @@ func NewRouter() *gin.Engine {
 	{
 		v1.POST("ping", api.Ping)
 
-		v1.POST("commit", api.CommitCode)
-		v1.GET("commitlist", api.GetCommitList)
-
 		// 用户登录
 		v1.POST("user/register", api.UserRegister)
-
-		// 用户登录
-		v1.POST("user/login", api.UserLogin)
 
 		// 需要登录保护的
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
 		{
+			v1.POST("commit", api.CommitCode)
+			v1.GET("commitlist", api.GetCommitList)
+			// 用户登录
+			v1.POST("user/login", api.UserLogin)
+
 			// User Routing
 			auth.GET("user/me", api.UserMe)
 			auth.DELETE("user/logout", api.UserLogout)

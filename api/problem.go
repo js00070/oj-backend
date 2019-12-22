@@ -20,7 +20,8 @@ func CommitCode(c *gin.Context) {
 
 // GetCommitList 获取提交列表
 func GetCommitList(c *gin.Context) {
-	commitList, err := model.GetCommitList()
+	id, _ := c.Get("UserID")
+	commitList, err := model.GetCommitList(id.(uint))
 	if err != nil {
 		c.JSON(500, ErrorResponse(err))
 	} else {
