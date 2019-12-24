@@ -12,7 +12,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api_server
 
 ########################################
 
-FROM alpine:3.7 as prod
+FROM rackspacedot/python37 as prod
 
 RUN apk update && apk add --no-cache curl
 

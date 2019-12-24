@@ -30,3 +30,16 @@ func GetCommitList(c *gin.Context) {
 		})
 	}
 }
+
+// GetProblemList 获取题目列表
+func GetProblemList(c *gin.Context) {
+	var problemList []model.Problem
+	err := model.DB.Find(&problemList).Error
+	if err != nil {
+		c.JSON(500, ErrorResponse(err))
+	} else {
+		c.JSON(200, gin.H{
+			"problemlist": problemList,
+		})
+	}
+}

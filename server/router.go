@@ -31,6 +31,7 @@ func NewRouter() *gin.Engine {
 		{
 			v1.POST("commit", api.CommitCode)
 			v1.GET("commitlist", api.GetCommitList)
+			v1.GET("problemlist", api.GetProblemList)
 			// 用户登录
 			v1.POST("user/login", api.UserLogin)
 

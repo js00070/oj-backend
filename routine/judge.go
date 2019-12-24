@@ -30,7 +30,7 @@ func Routine() {
 				status = -1
 			}
 			fmt.Printf("set commit: %v %v\n %v\n", commitID, status, output)
-			if err := model.SetCommit(commitID, output, status); err != nil {
+			if err := model.SetCommit(uint(commitID), output, status); err != nil {
 				panic(err)
 			}
 		} else {
