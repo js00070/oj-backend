@@ -1,7 +1,6 @@
 package service
 
 import (
-	"oj/cache"
 	"oj/model"
 	"oj/serializer"
 
@@ -21,14 +20,9 @@ func (service *CommitCodeService) Commit(c *gin.Context) serializer.Response {
 	if !ok {
 		return serializer.Err(312, "提交代码失败", nil)
 	}
-	commit, err := model.CreateCommit(id.(uint), service.ProblemID, service.Code, service.Lang)
+	_, err := model.CreateCommit(id.(uint), service.ProblemID, service.Code, service.Lang)
 	if err != nil {
 		return serializer.DBErr("", err)
 	}
-	cache.RedisClient.Ping()
-	cache.RedisClient.Set("lock", 0, 0)
-	cache.RedisClient.LPush("code", service.Code)
-	cache.RedisClient.LPush("commit", commit.ID)
-	cache.RedisClient.Set("lock", 1, 0)
 	return serializer.Success()
 }

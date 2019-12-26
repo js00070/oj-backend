@@ -24,14 +24,14 @@ func NewRouter() *gin.Engine {
 
 		// 用户登录
 		v1.POST("user/register", api.UserRegister)
-
+		v1.GET("problemlist", api.GetProblemList)
 		// 需要登录保护的
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
 		{
 			v1.POST("commit", api.CommitCode)
 			v1.GET("commitlist", api.GetCommitList)
-			v1.GET("problemlist", api.GetProblemList)
+
 			// 用户登录
 			v1.POST("user/login", api.UserLogin)
 

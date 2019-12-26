@@ -1,1 +1,1 @@
-docker build -t oj/apiserver:0.1 .
+docker build -t oj/apiserver:0.5 .

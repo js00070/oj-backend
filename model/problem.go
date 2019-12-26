@@ -86,8 +86,7 @@ func Judge(p *Problem, c *Commit) {
 	time.Sleep(time.Second * 1)
 	defer func() {
 		if r := recover(); r != nil {
-			log.Fatal(r)
-			SetCommit(c.ID, "", -1)
+			SetCommit(c.ID, "judging panic", -1)
 		}
 	}()
 	cmd := exec.Command("python", "-c", c.Code)
@@ -96,14 +95,14 @@ func Judge(p *Problem, c *Commit) {
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
-		SetCommit(c.ID, "", -1)
-		log.Fatal(err)
+		SetCommit(c.ID, err.Error(), -1)
+		return
 	}
 	outStr := strings.Trim(strings.TrimSpace(out.String()), "\n")
 	log.Println("output is ", outStr)
 	if outStr == p.StdOutput {
-		SetCommit(c.ID, outStr, 1)
+		SetCommit(c.ID, "计算结果正确", 1)
 	} else {
-		SetCommit(c.ID, outStr, -1)
+		SetCommit(c.ID, "计算结果错误", -1)
 	}
 }

@@ -14,7 +14,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api_server
 
 FROM rackspacedot/python37 as prod
 
-RUN apk update && apk add --no-cache curl
+#RUN apk update && apk add --no-cache curl
 
 ENV TZ=Asia/Shanghai
 COPY --from=build /app/conf/locales/zh-cn.yaml /conf/locales/zh-cn.yaml

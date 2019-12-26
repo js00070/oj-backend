@@ -34,7 +34,7 @@ services:
         condition: service_healthy
     container_name: apiserver
     restart: always
-    image: oj/apiserver:0.2
+    image: oj/apiserver:0.5
     expose:
       - '8080'
     environment:
@@ -53,10 +53,10 @@ services:
   frontend:
     container_name: frontend
     restart: always
-    image: oj/frontend:0.3
+    image: oj/frontend:0.7
     ports:
       - '8080:80'
-  judge:
-    container_name: judge
-    restart: always
-    image: oj/judge:0.1
+  # judge:
+  #   container_name: judge
+  #   restart: always
+  #   image: oj/judge:0.1
